@@ -1,5 +1,5 @@
 {
-  "name": "mcp-service",
+  "name": "mcp-fda",
   "version": "1.0.0",
   "description": "MCP server for FDA API",
   "main": "dist/index.js",

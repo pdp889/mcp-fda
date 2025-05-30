@@ -49,7 +49,7 @@ export class McpController {
 
   private setUp() : void {
     this.server.tool(
-      'search-food-enforcement',
+      'search-fda-food-enforcement',
       'Search for food enforcement actions by several field types',
       FoodEnforcementToolSchema,
       async (params) => {

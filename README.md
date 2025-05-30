@@ -25,7 +25,7 @@ A Model Context Protocol (MCP) service that provides access to the FDA Food Enfo
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd mcp-service
+cd mcp-fda
 ```
 
 2. Install dependencies:
