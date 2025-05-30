@@ -1,6 +1,6 @@
-# FDA Food Enforcement API MCP Service
+# FDA API MCP Service
 
-A Model Context Protocol (MCP) service that provides access to the FDA Food Enforcement API. This service allows querying FDA enforcement actions with support for various search parameters, date ranges, and wildcard matching.
+A Model Context Protocol (MCP) service that provides access to the FDA API.
 
 > Note: This service currently focuses on the FDA Food Enforcement API. Future versions will expand to include other FDA API endpoints.
 
