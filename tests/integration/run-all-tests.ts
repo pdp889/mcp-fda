@@ -69,11 +69,11 @@ class TestRunner {
     );
   }
 
-  async runTest(testName: string, params: any): Promise<{ success: boolean; error?: Error }> {
+  async runTest(testName: string, toolName: string, params: any): Promise<{ success: boolean; error?: Error }> {
     console.log(`\nRunning test: ${testName}`);
     try {
       const result = (await this.client.callTool({
-        name: 'search-fda-food-enforcement',
+        name: toolName,
         arguments: params,
       })) as ToolResponse;
 
@@ -127,8 +127,10 @@ async function runAllTests() {
     await runner.connect();
 
     const tests = [
+      // Food Enforcement tests
       {
-        name: 'Search with Multiple Fields',
+        name: 'Food Enforcement - Search with Multiple Fields',
+        toolName: 'search-fda-food-enforcement',
         params: {
           product_type: 'Food',
           city: 'Omaha',
@@ -136,7 +138,8 @@ async function runAllTests() {
         },
       },
       {
-        name: 'Search with Sort',
+        name: 'Food Enforcement - Search with Sort',
+        toolName: 'search-fda-food-enforcement',
         params: {
           product_type: 'Food',
           sort_field: 'recall_initiation_date',
@@ -144,10 +147,53 @@ async function runAllTests() {
           limit: 1,
         },
       },
+      {
+        name: 'Food Enforcement - Search with Date Range',
+        toolName: 'search-fda-food-enforcement',
+        params: {
+          recall_initiation_date_start: '2024-01-01',
+          recall_initiation_date_end: '2024-12-31',
+          limit: 1,
+        },
+      },
+      // Food Event tests
+      {
+        name: 'Food Event - Search with Date Range',
+        toolName: 'search-fda-food-event',
+        params: {
+          date_created_start: '2024-01-01',
+          date_created_end: '2024-12-31',
+          limit: 1,
+        },
+      },
+      {
+        name: 'Food Event - Search with Outcome',
+        toolName: 'search-fda-food-event',
+        params: {
+          outcomes: ['HOSPITALIZATION'],
+          limit: 1,
+        },
+      },
+      {
+        name: 'Food Event - Search with Product',
+        toolName: 'search-fda-food-event',
+        params: {
+          'products.name_brand': 'chocolate*',
+          limit: 1,
+        },
+      },
+      {
+        name: 'Food Event - Search with Reaction',
+        toolName: 'search-fda-food-event',
+        params: {
+          reactions: ['nausea', 'vomiting'],
+          limit: 1,
+        },
+      },
     ];
 
     for (const test of tests) {
-      const result = await runner.runTest(test.name, test.params);
+      const result = await runner.runTest(test.name, test.toolName, test.params);
       if (!result.success && result.error) {
         failures.push({ name: test.name, error: result.error });
       }

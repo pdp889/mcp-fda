@@ -1,18 +1,31 @@
 # FDA API MCP Service
 
-A Model Context Protocol (MCP) service that provides access to the FDA API.
-
-> Note: This service currently focuses on the FDA Food Enforcement API. Future versions will expand to include other FDA API endpoints.
+A Model Context Protocol (MCP) service that provides access to the FDA API, supporting both Food Enforcement and Food Event databases.
 
 ## Features
 
-- Search FDA food enforcement actions by multiple fields
-- Support for date range filtering
+### Food Enforcement API
+- Search food recalls, market withdrawals, and safety alerts
+- Filter by product type, description, and status
+- Search by date ranges (recall initiation, report date, etc.)
+- Location-based filtering (city, state, country)
 - Wildcard matching in search terms
+
+### Food Event API
+- Search adverse event reports
+- Filter by consumer information (age, gender)
+- Search by date ranges (created, started)
+- Filter by outcomes (e.g., hospitalization)
+- Product-based filtering (brand name, industry code)
+- Reaction-based filtering
+- Wildcard matching in search terms
+
+### Common Features
 - Pagination support
 - Sorting capabilities
 - Comprehensive error handling
 - Integration test suite
+- Logging and monitoring
 
 ## Prerequisites
 
@@ -49,11 +62,17 @@ The project uses TypeScript and follows a clean architecture pattern:
 
 - `src/controllers/` - MCP server controller
 - `src/services/` - Business logic and API integration
-  - `fda.service.ts` - FDA API integration (currently Food Enforcement only)
+  - `fda.service.ts` - Base FDA API integration
+  - `food-enforcement.service.ts` - Food Enforcement API integration
+  - `food-event.service.ts` - Food Event API integration
 - `src/schemas/` - Type definitions and validation schemas
-  - `fda.schema.ts` - FDA API request/response schemas
+  - `food-enforcement.schema.ts` - Food Enforcement API schemas
+  - `food-event.schema.ts` - Food Event API schemas
+- `src/tools/` - MCP tool implementations
+  - `fda.tool.ts` - Base FDA tool implementation
+  - `food-enforcement.tool.ts` - Food Enforcement tool
+  - `food-event.tool.ts` - Food Event tool
 - `src/mappers/` - Data transformation utilities
-  - `fda.mapper.ts` - FDA API data mapping
 - `src/utils/` - Helper functions and logging
 
 ### Available Scripts
@@ -65,7 +84,7 @@ The project uses TypeScript and follows a clean architecture pattern:
 
 ## Testing
 
-The project includes an integration test suite that verifies the MCP service functionality. Tests are located in `tests/integration/`.
+The project includes an integration test suite that verifies both Food Enforcement and Food Event API functionality. Tests are located in `tests/integration/`.
 
 To run the tests:
 ```bash
@@ -75,7 +94,7 @@ npm test
 The test suite:
 - Starts a local MCP server
 - Connects a test client
-- Runs test cases against the FDA Food Enforcement API
+- Runs test cases against both FDA APIs
 - Verifies response formats and error handling
 - Cleans up resources after completion
 
@@ -100,14 +119,9 @@ To expose this service to Claude, add the following to your Claude configuration
 }
 ```
 
-Replace the paths with your actual paths:
-- `path/to/dist/index.js` - Path to the built service
-- `path/to/logs/app.log` - Path where you want logs to be written
-
 ### Search Parameters
 
-The service supports the following search parameters for FDA Food Enforcement data:
-
+#### Food Enforcement Search Parameters
 - `product_type` - Type of product (e.g., "Food")
 - `product_description` - Description of the product (supports wildcards)
 - `recall_initiation_date_start` - Start date for recall range
@@ -115,16 +129,42 @@ The service supports the following search parameters for FDA Food Enforcement da
 - `city` - City where the recall was initiated
 - `state` - State where the recall was initiated
 - `recalling_firm` - Name of the recalling firm
+- `status` - Recall status (e.g., "Ongoing")
 - `limit` - Number of results to return (default: 10)
 - `skip` - Number of results to skip (for pagination)
 - `sort_field` - Field to sort by
 - `sort_direction` - Sort direction ("asc" or "desc")
 
-Example search:
+Example Food Enforcement search:
 ```typescript
 {
   product_type: "Food",
   city: "Omaha",
+  status: "Ongoing",
+  limit: 10
+}
+```
+
+#### Food Event Search Parameters
+- `date_created_start` - Start date for report creation range
+- `date_created_end` - End date for report creation range
+- `date_started_start` - Start date for event start range
+- `date_started_end` - End date for event start range
+- `outcomes` - Array of outcomes (e.g., ["HOSPITALIZATION"])
+- `products.name_brand` - Product brand name (supports wildcards)
+- `products.industry_code` - FDA industry code
+- `reactions` - Array of reactions (e.g., ["nausea", "vomiting"])
+- `limit` - Number of results to return (default: 10)
+- `skip` - Number of results to skip (for pagination)
+- `sort_field` - Field to sort by
+- `sort_direction` - Sort direction ("asc" or "desc")
+
+Example Food Event search:
+```typescript
+{
+  date_created_start: "2024-01-01",
+  date_created_end: "2024-12-31",
+  outcomes: ["HOSPITALIZATION"],
   limit: 10
 }
 ```
@@ -152,6 +192,8 @@ The service provides structured error responses for:
 - Add more comprehensive error handling
 - Support for batch operations
 - Additional search parameters and filters
+- Rate limiting and throttling
+- Enhanced logging and monitoring
 
 ## License
 
