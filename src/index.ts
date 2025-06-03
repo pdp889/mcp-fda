@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { McpController } from './controllers/mcp.controller';
 
 // Load environment variables
 dotenv.config();
@@ -7,5 +6,6 @@ dotenv.config();
 // Get API key from environment
 const apiKey = process.env.FDA_API_KEY || '';
 
+import { McpController } from './controllers/mcp.controller';
 // Start the MCP server
 new McpController(apiKey);

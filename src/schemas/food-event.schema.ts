@@ -37,12 +37,12 @@ export const FoodEventSchema = {
   'products.industry_code': z
     .string()
     .optional()
-    .describe('The FDA industry code for the product.'),
+    .describe('The FDA industry code for the product. Use * for wildcard searching.'),
   'products.industry_name': z
     .string()
     .optional()
-    .describe('The FDA industry name associated with the product.'),
-  'products.name_brand': z.string().optional().describe('The reported brand name of the product.'),
+    .describe('The FDA industry name associated with the product. Use * for wildcard searching.'),
+  'products.name_brand': z.string().optional().describe('The reported brand name of the product. Use * for wildcard searching.'),
   'products.role': createZodEnum(PRODUCT_ROLE)
     .optional()
     .describe('The reported role of the product in the adverse event report.'),
@@ -51,10 +51,10 @@ export const FoodEventSchema = {
   reactions: z
     .array(z.string())
     .optional()
-    .describe('MedDRA terms for the reactions (in British English).'),
+    .describe('MedDRA terms for the reactions (in British English). Use * for wildcard searching.'),
 
   // Report information
-  report_number: z.string().optional().describe('The report number.'),
+  report_number: z.string().optional().describe('The report number. Use * for wildcard searching.'),
 
   // Pagination and sorting
   limit: z.number().optional().describe('Maximum number of results to return (max 1000).'),

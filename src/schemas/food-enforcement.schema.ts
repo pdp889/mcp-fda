@@ -12,19 +12,19 @@ export const FoodEnforcementSchema = {
     .string()
     .optional()
     .describe(
-      'A numerical designation assigned by FDA to a specific recall event used for tracking purposes.'
+      'A numerical designation assigned by FDA to a specific recall event used for tracking purposes. Use * for wildcard searching.'
     ),
   reason_for_recall: z
     .string()
     .optional()
     .describe(
-      'Information describing how the product is defective and violates the FD&C Act or related statutes.'
+      'Information describing how the product is defective and violates the FD&C Act or related statutes. Use * for wildcard searching.'
     ),
   status: createZodEnum(RECALL_STATUS).optional().describe('The current status of the recall.'),
   voluntary_mandated: z
     .string()
     .optional()
-    .describe('Describes who initiated the recall (voluntary or mandated by FDA).'),
+    .describe('Describes who initiated the recall (voluntary or mandated by FDA). Use * for wildcard searching.'),
 
   // Product information
   product_type: createZodEnum(PRODUCT_TYPE)
@@ -33,11 +33,11 @@ export const FoodEnforcementSchema = {
   product_description: z
     .string()
     .optional()
-    .describe('Brief description of the product being recalled.'),
+    .describe('Brief description of the product being recalled. Use * for wildcard searching.'),
   product_quantity: z
     .string()
     .optional()
-    .describe('The amount of defective product subject to recall.'),
+    .describe('The amount of defective product subject to recall. Use * for wildcard searching.'),
   classification: createZodEnum(RECALL_CLASSIFICATION)
     .optional()
     .describe(
@@ -48,33 +48,33 @@ export const FoodEnforcementSchema = {
   distribution_pattern: z
     .string()
     .optional()
-    .describe('General area of initial distribution such as states, countries, or "nationwide".'),
+    .describe('General area of initial distribution such as states, countries, or "nationwide". Use * for wildcard searching.'),
   code_info: z
     .string()
     .optional()
     .describe(
-      'A list of all lot and/or serial numbers, product numbers, packer or manufacturer numbers, sell or use by dates, etc.'
+      'A list of all lot and/or serial numbers, product numbers, packer or manufacturer numbers, sell or use by dates, etc. Use * for wildcard searching.'
     ),
 
   // Firm information
   recalling_firm: z
     .string()
     .optional()
-    .describe('The firm that initiates a recall or has primary responsibility for the product.'),
-  address_1: z.string().optional().describe('Primary address of the recalling firm.'),
-  address_2: z.string().optional().describe('Secondary address of the recalling firm.'),
-  city: z.string().optional().describe('The city in which the recalling firm is located.'),
+    .describe('The firm that initiates a recall or has primary responsibility for the product. Use * for wildcard searching.'),
+  address_1: z.string().optional().describe('Primary address of the recalling firm. Use * for wildcard searching.'),
+  address_2: z.string().optional().describe('Secondary address of the recalling firm. Use * for wildcard searching.'),
+  city: z.string().optional().describe('The city in which the recalling firm is located. Use * for wildcard searching.'),
   state: z
     .string()
     .optional()
     .describe(
-      'The U.S. state in which the recalling firm is located. Use the two-letter state code.'
+      'The U.S. state in which the recalling firm is located. Use the two-letter state code. Use * for wildcard searching.'
     ),
   country: z
     .string()
     .optional()
     .describe(
-      'The country in which the recalling firm is located. Use the two-letter country code.'
+      'The country in which the recalling firm is located. Use the two-letter country code. Use * for wildcard searching.'
     ),
 
   // Dates
@@ -113,13 +113,13 @@ export const FoodEnforcementSchema = {
     .string()
     .optional()
     .describe(
-      'A numerical designation assigned by FDA to a specific recall event used for tracking purposes.'
+      'A numerical designation assigned by FDA to a specific recall event used for tracking purposes. Use * for wildcard searching.'
     ),
   initial_firm_notification: z
     .string()
     .optional()
     .describe(
-      'The method(s) by which the firm initially notified the public or their consignees of a recall.'
+      'The method(s) by which the firm initially notified the public or their consignees of a recall. Use * for wildcard searching.'
     ),
 
   // Pagination and sorting
