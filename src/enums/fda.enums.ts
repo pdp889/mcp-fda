@@ -1,10 +1,11 @@
 import { z } from 'zod';
 
 // Utility function to create Zod enums from TypeScript enums
-export const createZodEnum = <T extends { [key: string]: string }>(
+export const createZodEnum = <T extends Readonly<Record<string, string>>>(
   enumObj: T
 ): z.ZodEnum<[string, ...string[]]> => {
-  return z.enum(Object.values(enumObj) as [string, ...string[]]);
+  const values = Object.values(enumObj) as [string, ...string[]];
+  return z.enum(values);
 };
 
 export const SORT_DIRECTION = {
